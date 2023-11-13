@@ -1,1 +1,112 @@
-20231109233848|0
+20231113 15:26:21|: WARN:CfgMgr: Could not locate 'cammm.cfg' to load config data
+20231113 15:26:21|: WARN:CfgMgr: Could not locate 'cammm.cfg' to load config data
+20231113 15:26:21|: INFO: Downloading Localization
+20231113 15:26:21|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 1.8.3(current)
+20231113 15:26:46|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:26:46|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:26:47|: INFO: Downloading Localization
+20231113 15:26:47|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 1.8.3(current)
+20231113 15:27:10|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:27:10|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:27:10|: INFO: Downloading Localization
+20231113 15:27:10|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:28:46|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:28:46|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:28:46|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:28:47|: INFO: Downloading Localization
+20231113 15:31:31|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:31:31|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:31:31|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:31:31|: INFO: Downloading Localization localization.ini
+20231113 15:37:08|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:37:08|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:37:08|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:37:09|: INFO: Downloading Localization localization.ini
+20231113 15:39:37|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:39:37|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:39:37|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:39:38|: INFO: Downloading Localization localization.ini
+20231113 15:40:11|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:40:11|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:40:11|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:40:12|: INFO: Downloading Localization localization.ini
+20231113 15:47:26|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:47:26|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:47:26|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:47:27|: INFO: Downloading Localization localization.ini
+20231113 15:47:35|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:47:35|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:47:35|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:47:35|: INFO: Downloading Localization localization.ini
+20231113 15:49:51|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:49:51|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:49:51|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:49:51|: INFO: Downloading Localization localization.ini
+20231113 15:50:14|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:50:14|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:50:14|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:50:15|: INFO: Downloading Localization localization.ini
+20231113 15:50:51|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:50:51|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:50:51|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:50:52|: INFO: Downloading Localization localization.ini
+20231113 15:51:05|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:51:05|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:51:05|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:51:05|: INFO: Downloading Localization localization.ini
+20231113 15:51:35|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:51:36|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:51:36|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:51:36|: INFO: Downloading Localization localization.ini
+20231113 15:51:59|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:51:59|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:51:59|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:51:59|: INFO: Downloading Localization localization.ini
+20231113 15:52:06|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:52:06|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:52:06|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:52:07|: INFO: Downloading Localization localization.ini
+20231113 15:52:18|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:52:18|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:52:18|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:52:19|: INFO: Downloading Localization localization.ini
+20231113 15:52:56|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:52:56|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:52:56|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:52:56|: INFO: Downloading Localization localization.ini
+20231113 15:56:54|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:56:54|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:56:54|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 15:56:54|: INFO: Downloading Localization localization.ini
+20231113 15:57:15|: DEBUG:Load_ALL(line:localizationlanguage=turkish		||localizationlanguage +> turkish
+20231113 15:57:15|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 15:57:15|: DEBUG:Load_ALL(line:localizationlanguage=turkish		||localizationlanguage +> turkish
+20231113 15:57:15|: INFO: Downloading Localization localization.ini
+20231113 16:00:15|: DEBUG:Load_ALL(line:localizationlanguage=turkish		||localizationlanguage +> turkish
+20231113 16:00:15|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 16:00:15|: DEBUG:Load_ALL(line:localizationlanguage=turkish		||localizationlanguage +> turkish
+20231113 16:00:15|: INFO: Downloading Localization localization.ini
+20231113 16:00:41|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:00:41|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.3(current)
+20231113 16:00:41|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:00:41|: INFO: Downloading Localization localization.ini
+20231113 16:02:51|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:02:51|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.4(current)
+20231113 16:02:51|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:02:51|: INFO: Downloading Localization localization.ini
+20231113 16:03:53|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:03:53|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.4(current)
+20231113 16:03:53|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:03:54|: INFO: Downloading Localization localization.ini
+20231113 16:05:12|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:05:12|: DEBUG: prompt_update -> comparing 2.8.2(cloud) to 2.8.4(current)
+20231113 16:05:12|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:05:12|: INFO: Downloading Localization localization.ini
+20231113 16:10:37|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:10:37|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:10:38|: INFO: Downloading Localization localization.ini
+20231113 16:10:38|: DEBUG: prompt_update -> comparing 2.8.4(cloud) to 2.8.4(current)
+20231113 16:10:55|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:10:55|: DEBUG: prompt_update -> comparing 2.8.4(cloud) to 2.8.4(current)
+20231113 16:10:55|: DEBUG:Load_ALL(line:localizationlanguage=english		||localizationlanguage +> english
+20231113 16:10:55|: INFO: Downloading Localization localization.ini

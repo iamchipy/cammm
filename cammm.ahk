@@ -16,7 +16,7 @@
 #SingleInstance Force
 
 ;===================================================
-app_version := "2.8.2", unused := "custom var"
+app_version := "2.8.4", unused := "custom var"
 ;@Ahk2Exe-Let U_version = %A_PriorLine~U)^(.+"){1}(.+)".*$~$2%
 
 ;@Ahk2Exe-SetCopyright    Freeware written by Chipy
@@ -29,19 +29,29 @@ app_version := "2.8.2", unused := "custom var"
 
 ;constructed for AHKv2 
 ;should be able to find it in (autohotkey.com/download/2.0/)
-coded_on := "2.0.2"
+coded_on := "2.0.10"
 if A_AhkVersion != coded_on and !A_IsCompiled
 	msgbox "You are running AHK v" A_AhkVersion "`n`rThis code was writting on v" coded_on "`n`nPlease download that exact version from autohotkey.com/download/2.0/"
 
+if !DirExist(A_AppData "/ChipysArkMapMarkerManager")
+    DirCreate(A_AppData "/ChipysArkMapMarkerManager")
+if A_IsCompiled
+    A_WorkingDir := A_AppData "/ChipysArkMapMarkerManager"
+global LOG_LEVEL := 2
+global SCRIPT_NAME := "cammm"
+global CFG_PATH := SCRIPT_NAME ".cfg"
+global LOG_PATH := SCRIPT_NAME ".log"
+LOCALIZATION_FILENAME := "localization.ini"
+
 ; Statics
 iniSectionName := "/Script/ShooterGame.ShooterGameUserSettings"
-storage := A_AppData "/ChipyMapMarkerManager"
 baseURL := "https://chipy.dev/download/"
+loopBreaker := true
 
 database := Map()
 iniPath := getINIPath()
-
-loopBreaker := true
+cfg := ConfigManagerTool()
+updateObj := UpdateHandler("https://chipy.dev/download/cammm.exe",app_version,, "Chipy's ARK MapMarkerManager")
 
 ; ### MapMarker
 ; (id, name, color, xyz, map:="TheIsland_WP", overlay:="False")
@@ -211,19 +221,29 @@ class MarkerCollection {
     }
 }
 
-
-buildGUI(iniPath, iniSectionName, database, storage, baseURL, &loopBreaker)
+buildConfig(&cfg)
+refreshLocalization(true)
+buildGUI(iniPath, iniSectionName, database,   baseURL, &loopBreaker, cfg)
 buildTray()
 
-updateObj := UpdateHandler("https://chipy.dev/download/cammm.exe","cammm", "Chipy's ARK MapMarkerManager")
 return
 
 buildTray(){
-    A_TrayMenu.add("OPEN GUI",(*)=>buildGUI(iniPath, iniSectionName, database, storage, baseURL, &loopBreaker))
-
+    A_TrayMenu.add("OPEN GUI",(*)=>buildGUI(iniPath, iniSectionName, database,   baseURL, &loopBreaker, cfg))
 }
 
-constructDatabase(database, storage, baseURL, OptionsGUI, &loopBreaker){
+buildConfig(&cfg){
+    
+    cfg.ini("localizationlanguage",,"english",,"Language selection",["English","Turkish"])
+    cfg.load_all()
+    cfg.save_all()
+    
+    ; MsgBox "loading " cfg.c["localizationlanguage"].value 
+    ; ExitApp
+}
+
+
+constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker){
     cachedList := ""
     fileName := "cammm_raw.csv"
     donwloadURL := StrReplace(baseURL fileName, "\", "/")
@@ -238,14 +258,13 @@ constructDatabase(database, storage, baseURL, OptionsGUI, &loopBreaker){
     ; handle weird line starts
     try{
         cachedList := StrSplit(whr.ResponseText, "ï»¿")[2]
-        MsgBox "Successfully update "  StrSplit(cachedList, "`n").Length -1  " MapMarkers!"
+        MsgBox "(" StrSplit(cachedList, "`n").Length -1 ") " localize("promptDownloadSuccess", cfg.c["localizationlanguage"].value) 
     }catch{
         MsgBox("Error downloading Nodes!")
         FileAppend(A_Now "|" A_LastError,"cmmm.log")
     }
 
     constructCollection(name, color, map, overlay, desc, cachedList, database, ListSliceArray:=0){
-
         try{
             database[name] := MarkerCollection(name, color, map, overlay, desc, ListSliceArray)
             database[name].readInMarkers(cachedList, name)
@@ -253,26 +272,26 @@ constructDatabase(database, storage, baseURL, OptionsGUI, &loopBreaker){
             MsgBox(name " error with: " whr.ResponseText)
             FileAppend(A_Now "|constructCollection>" name "|" A_LastError,"cmmm.log")
         }
-
     }
 
-    constructCollection("Artifact",         "ced9315","TheIsland_WP","True","Artifacts markers",        cachedList, database)
-    constructCollection("BlackPearlA",      "ced1597","TheIsland_WP","True","Mosa Black Pear Route",    cachedList, database)
-    constructCollection("DeepSea",          "c15eded","TheIsland_WP","True","Under Water Drops (incomplete)", cachedList, database)
+    constructCollection("Artifact",         "ced9315","TheIsland_WP","True",localize("artifactCollectionDescription", cfg.c["localizationlanguage"].value),        cachedList, database)
+    constructCollection("BlackPearlA",      "ced1597","TheIsland_WP","True",localize("blackPearlADescription", cfg.c["localizationlanguage"].value),    cachedList, database)
+    constructCollection("DeepSea",          "c15eded","TheIsland_WP","True",localize("underWaterDropsDescription", cfg.c["localizationlanguage"].value), cachedList, database)
     ListSliceArray := [6,19,46,48,51,52,53,55,56,57,60,62,89,90,95,99,110,112,113,131,140,148,149,160,169,191,200]
-    constructCollection("NoBeds",           "cfffb00","TheIsland_WP","True","Cave notes that don't have beds ", cachedList, database, ListSliceArray)
+    constructCollection("NoBeds",           "cfffb00","TheIsland_WP","True",localize("nonBedCaveDescription", cfg.c["localizationlanguage"].value), cachedList, database, ListSliceArray)
+    constructCollection("MetalRunA",           "cfffb00","TheIsland_WP","True",localize("MetalRunADescription", cfg.c["localizationlanguage"].value), cachedList, database, ListSliceArray)
 
-    constructCollection("noteBoss",         "cd6d6d6","TheIsland_WP","True","Boss/TekCave markers",     cachedList, database)
-    constructCollection("noteCave",         "c1b1b1b","TheIsland_WP","True","Cave markers (some underwater)", cachedList, database)
-    constructCollection("noteEasy",         "c15ed4f","TheIsland_WP","True","Easy (normally reachable on foot)", cachedList, database)
-    constructCollection("noteMountain",     "cf14553","TheIsland_WP","True","On mountain sides or hilltops",                    cachedList, database)
-    constructCollection("noteOther",        "c6b4219","TheIsland_WP","True","Other",                    cachedList, database)
+    constructCollection("noteBoss",         "cd6d6d6","TheIsland_WP","True",localize("noteBossDescription", cfg.c["localizationlanguage"].value),     cachedList, database)
+    constructCollection("noteCave",         "c1b1b1b","TheIsland_WP","True",localize("noteCaveDescription", cfg.c["localizationlanguage"].value), cachedList, database)
+    constructCollection("noteEasy",         "c15ed4f","TheIsland_WP","True",localize("noteEasyDescription", cfg.c["localizationlanguage"].value), cachedList, database)
+    constructCollection("noteMountain",     "cf14553","TheIsland_WP","True",localize("noteMountainDescription", cfg.c["localizationlanguage"].value),                    cachedList, database)
+    constructCollection("noteOther",        "c6b4219","TheIsland_WP","True",localize("noteOtherDescription", cfg.c["localizationlanguage"].value), cachedList, database)
     
 
     
 
     OptionsGUI.Destroy()
-    buildGUI(iniPath, iniSectionName, database, storage, baseURL, &loopBreaker)
+    buildGUI(iniPath, iniSectionName, database,   baseURL, &loopBreaker, cfg)
 }
 
 ; excecute
@@ -320,15 +339,22 @@ addMarkersToINI(iniPath,iniSectionName, database){
     ; Save
     IniWrite(modifiedINI,iniPath,iniSectionName)
 
-    MsgBox "DONE (errors " A_LastError  ")`nCleaned up " countRemoved " markers`nAdded " countAdded " markers" 
+    reportStr :=localize("promptINIReport1", cfg.c["localizationlanguage"].value)
+    reportStr .=A_LastError
+    reportStr .=localize("promptINIReport2", cfg.c["localizationlanguage"].value)
+    reportStr .=countRemoved
+    reportStr .=localize("promptINIReport3", cfg.c["localizationlanguage"].value)
+    reportStr .=countAdded
+    reportStr .=localize("promptINIReport4", cfg.c["localizationlanguage"].value)
+    MsgBox reportStr
 
 }
 
 ; excecute
 removeMarkersFromINI(iniPath,iniSectionName){
-    
+    countRemoved :=0
     ; WARN the user
-    MsgBox "Please make sure you have the game closed or on the main menu. (Or else the markers will not 'save')`r`n`r`nPress 'OK' to continue"
+    MsgBox localize("promptINIWarning", cfg.c["localizationlanguage"].value)
 
     ; Get current INI state
     currentINI := IniRead(iniPath, iniSectionName)
@@ -339,13 +365,21 @@ removeMarkersFromINI(iniPath,iniSectionName){
         if !lineContainsChipy(A_LoopField){
             ; we can keep the line
             cleanedINI .= A_LoopField "`n"
+        }else{
+            countRemoved+=1
         }
     }
 
     ; Save
     IniWrite(cleanedINI,iniPath,iniSectionName)
 
-    MsgBox "DONE"
+    reportStr :=localize("promptINIReport1", cfg.c["localizationlanguage"].value)
+    reportStr .=A_LastError
+    reportStr .=localize("promptINIReport2", cfg.c["localizationlanguage"].value)
+    reportStr .=countRemoved
+    reportStr .=localize("promptINIReport4", cfg.c["localizationlanguage"].value)
+    MsgBox reportStr
+
 }
 
 lineContainsChipy(InputString){
@@ -354,21 +388,21 @@ lineContainsChipy(InputString){
     return false
 }
 
-buildGUI(iniPath,iniSectionName, database, storage, baseURL, &loopBreaker){
+buildGUI(iniPath,iniSectionName, database,   baseURL, &loopBreaker, cfg){
     ; build GUI
     GUI_FONT_SIZE:=20
-    OptionsGUI := gui(" -MinimizeBox -DPIScale","Chipys ASA Map Marker Manager (" app_version ")")
+    OptionsGUI := gui(" -MinimizeBox -DPIScale","Chipys ASA Map Marker Manager (" app_version " " cfg.c["localizationlanguage"].value ")")
     OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q3", "Terminal")				
     OptionsGUI.BackColor := "666666"								
 
-    OptionsGUI.Add("text",  ,"Notes:")
+    OptionsGUI.Add("text",  ,localize("guiTitleNotes", cfg.c["localizationlanguage"].value))
     for key, value in database {
         if InStr(key, "note"){
             database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "xm background" SubStr(value.color,2) ,"   ")
             OptionsGUI.Add("text", " yp" , value.description)
         }
     }
-    OptionsGUI.Add("text", "xm"  ,"Points of Interest / Farming Routes:")
+    OptionsGUI.Add("text", "xm"  ,localize("guiTitlePOIs", cfg.c["localizationlanguage"].value))
     for key, value in database {
         if !InStr(key, "note"){
             database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "xm background" SubStr(value.color,2) ,"   ")
@@ -378,16 +412,34 @@ buildGUI(iniPath,iniSectionName, database, storage, baseURL, &loopBreaker){
 
     OptionsGUI.Add("text",  ,"")
     
-    OptionsGUI.Add("button", "xm" , "1. Download Markers").OnEvent("click",(*)=> constructDatabase(database, storage, baseURL, OptionsGUI, &loopBreaker))
-    OptionsGUI.Add("button", "xm" , "2. Apply Selected").OnEvent("click",(*)=> addMarkersToINI(iniPath,iniSectionName, database))
-    OptionsGUI.Add("button", "yp" , "Open INI").OnEvent("click",(*)=> Run(iniPath))
-    OptionsGUI.Add("button", "xm" , "3. Cleanup").OnEvent("click",(*)=> removeMarkersFromINI(iniPath,iniSectionName))
-    OptionsGUI.Add("button", "yp" , "Capture CCC").OnEvent("click",(*)=> toggleCaptureClipboardChanges(&loopBreaker))
+    OptionsGUI.Add("button", "xm" , localize("buttonDownload", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker))
+    OptionsGUI.Add("button", "xm" , localize("buttonApply", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> addMarkersToINI(iniPath,iniSectionName, database))
+    OptionsGUI.Add("button", "yp" , localize("buttonINI", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> Run(iniPath))
+    OptionsGUI.Add("button", "xm" , localize("buttonCleanup", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> removeMarkersFromINI(iniPath,iniSectionName))
+    OptionsGUI.Add("button", "yp" , localize("buttonCCC", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> toggleCaptureClipboardChanges(&loopBreaker))
     
     ; OptionsGUI.Add("button", "yp" , "Capture CCC").OnEvent("click",(*)=> toggleCaptureClipboardChanges(&loopBreaker))    
     OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE*0.6) " q3", "Terminal")		
-    OptionsGUI.AddLink( "xm" ,'Created by <a href="https://chipy.dev">Chipy</a>,`nSuport my RootBeer habbit with <a href="https://www.paypal.com/donate/?hosted_button_id=KEYF8KWYJYSFU">Paypal</a>')
+    OptionsGUI.AddLink( "xm" ,localize("supportMe", cfg.c["localizationlanguage"].value))
     OptionsGUI.show()
+}
+
+localize(string_name, target_language:="english"){
+    try
+        refreshLocalization()
+    try
+        return StrReplace(IniRead("localization.ini", target_language, string_name),"``n","`n")
+    catch
+        try
+            return StrReplace(IniRead("localization.ini", "english", string_name),"``n","`n")
+        return "LocErr: " string_name
+}
+
+refreshLocalization(forceRedownload:=0){
+    if (!FileExist(LOCALIZATION_FILENAME) or forceRedownload){
+        Download("https://chipy.dev/download/cammm_localization.ini", LOCALIZATION_FILENAME)
+        log("INFO: Downloading Localization " LOCALIZATION_FILENAME)
+    }
 }
 
 

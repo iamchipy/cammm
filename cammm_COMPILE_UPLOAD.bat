@@ -1,1 +1,1 @@
-powershell C:\Dropbox\_SCRIPTS\COMPILE_AND_UPLOAD.ps1 -i "C:\Dropbox\_SCRIPTS\c4_dev\cammm.ahk" -o "C:\Dropbox\_SCRIPTS\c4_dev\cammm.exe" -ftp "ftp://upload@chipy.dev:1shortDUMBstring!@chipy.dev/" -icon "C:\Dropbox\_SCRIPTS\c4_dev\img\tray_loaded.ico"
+powershell C:\Dropbox\_SCRIPTS\COMPILE_AND_UPLOAD.ps1 -i "C:\Dropbox\_SCRIPTS\cammm\cammm.ahk" -o "C:\Dropbox\_SCRIPTS\cammm\cammm.exe" -ftp "ftp://upload@chipy.dev:1shortDUMBstring!@chipy.dev/" -icon "C:\Dropbox\_SCRIPTS\cammm\img\tray_loaded.ico"

@@ -221,7 +221,7 @@
 221,Note_Nerva_Note 30 ,-86301,-55953,33752,TheIsland_WP,noteMountain,0,0.7,0.7,,setplayerpos -86301 -55953 33752
 222,Note_Explorer_??? #1,225972,-210720,-116325,TheIsland_WP,noteBoss,0.8,0.8,0.8,,
 223,Artifact_Cunning,267420,-28505,-43224,TheIsland_WP,Artifact,0.8,0.8,0,,
-224,deep Sea drop,-328839,11300,-42572,TheIsland_WP,BlackPearlA,0.3,0.1,0,,
+224,DeepSeaDrop 1,-328839,11300,-42572,TheIsland_WP,DeepSea,0.3,0.1,0,,
 225,BlackPearlA_1,-338100,63292,-42702,TheIsland_WP,BlackPearlA,0.3,0.1,0,,
 226,BlackPearlA_2,-339607,145081,-37371,TheIsland_WP,BlackPearlA,0.3,0.1,0,,
 227,BlackPearlA_3,-332946,276654,-33293,TheIsland_WP,BlackPearlA,0.3,0.1,0,,
@@ -259,3 +259,4 @@
 259,Artifact_Strong *MISSING*,-188100,-160900,-6500,TheIsland_WP,Artifact,0.8,0.8,0,,
 260,Dossier_Helena_Carcharodontosaurus,240320,-118211,21156,TheIsland_WP,noteEasy,,,,,
 261,Dossier_Helena_Rhyniognatha,5306,-124471,-1155,TheIsland_WP,noteEasy,,,,2x,
+261,DeepSeaDrop 2,-336763,-120427,-45697,TheIsland_WP,DeepSea,,,,,

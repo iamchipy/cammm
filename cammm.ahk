@@ -16,7 +16,7 @@
 #SingleInstance Force
 
 ;===================================================
-app_version := "2.8.4", unused := "custom var"
+app_version := "2.8.6", unused := "custom var"
 ;@Ahk2Exe-Let U_version = %A_PriorLine~U)^(.+"){1}(.+)".*$~$2%
 
 ;@Ahk2Exe-SetCopyright    Freeware written by Chipy
@@ -243,7 +243,7 @@ buildConfig(&cfg){
 }
 
 
-constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker){
+constructDatabase(database, baseURL, OptionsGUI, &loopBreaker){
     cachedList := ""
     fileName := "cammm_raw.csv"
     donwloadURL := StrReplace(baseURL fileName, "\", "/")
@@ -264,9 +264,10 @@ constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker){
         FileAppend(A_Now "|" A_LastError,"cmmm.log")
     }
 
-    constructCollection(name, color, map, overlay, desc, cachedList, database, ListSliceArray:=0){
+    constructCollection(name, color, map, overlay, descLocName, cachedList, database, ListSliceArray:=0){
+        descStr := localize(descLocName, cfg.c["localizationlanguage"].value)
         try{
-            database[name] := MarkerCollection(name, color, map, overlay, desc, ListSliceArray)
+            database[name] := MarkerCollection(name, color, map, overlay, descStr, ListSliceArray)
             database[name].readInMarkers(cachedList, name)
         }catch{
             MsgBox(name " error with: " whr.ResponseText)
@@ -274,20 +275,56 @@ constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker){
         }
     }
 
-    constructCollection("Artifact",         "ced9315","TheIsland_WP","True",localize("artifactCollectionDescription", cfg.c["localizationlanguage"].value),        cachedList, database)
-    constructCollection("BlackPearlA",      "ced1597","TheIsland_WP","True",localize("blackPearlADescription", cfg.c["localizationlanguage"].value),    cachedList, database)
-    constructCollection("DeepSea",          "c15eded","TheIsland_WP","True",localize("underWaterDropsDescription", cfg.c["localizationlanguage"].value), cachedList, database)
+    constructCollection("Artifact",         "ced9315","TheIsland_WP","True", "artifactCollectionDescription",         cachedList, database)
+    constructCollection("BlackPearlA",      "ced1597","TheIsland_WP","True", "blackPearlADescription",     cachedList, database)
+    constructCollection("DeepSea",          "c15eded","TheIsland_WP","True", "underWaterDropsDescription",  cachedList, database)
     ListSliceArray := [6,19,46,48,51,52,53,55,56,57,60,62,89,90,95,99,110,112,113,131,140,148,149,160,169,191,200]
-    constructCollection("NoBeds",           "cfffb00","TheIsland_WP","True",localize("nonBedCaveDescription", cfg.c["localizationlanguage"].value), cachedList, database, ListSliceArray)
-    constructCollection("MetalRunA",           "cfffb00","TheIsland_WP","True",localize("MetalRunADescription", cfg.c["localizationlanguage"].value), cachedList, database, ListSliceArray)
+    constructCollection("NoBeds",           "cfffb00","TheIsland_WP","True", "nonBedCaveDescription",  cachedList, database, ListSliceArray)
+    constructCollection("MetalRunA",           "cfffb00","TheIsland_WP","True", "MetalRunADescription",  cachedList, database, ListSliceArray)
 
-    constructCollection("noteBoss",         "cd6d6d6","TheIsland_WP","True",localize("noteBossDescription", cfg.c["localizationlanguage"].value),     cachedList, database)
-    constructCollection("noteCave",         "c1b1b1b","TheIsland_WP","True",localize("noteCaveDescription", cfg.c["localizationlanguage"].value), cachedList, database)
-    constructCollection("noteEasy",         "c15ed4f","TheIsland_WP","True",localize("noteEasyDescription", cfg.c["localizationlanguage"].value), cachedList, database)
-    constructCollection("noteMountain",     "cf14553","TheIsland_WP","True",localize("noteMountainDescription", cfg.c["localizationlanguage"].value),                    cachedList, database)
-    constructCollection("noteOther",        "c6b4219","TheIsland_WP","True",localize("noteOtherDescription", cfg.c["localizationlanguage"].value), cachedList, database)
+    constructCollection("noteBoss",         "cd6d6d6","TheIsland_WP","True", "noteBossDescription",      cachedList, database)
+    constructCollection("noteCave",         "c1b1b1b","TheIsland_WP","True", "noteCaveDescription",  cachedList, database)
+    constructCollection("noteEasy",         "c15ed4f","TheIsland_WP","True", "noteEasyDescription",  cachedList, database)
+    constructCollection("noteMountain",     "cf14553","TheIsland_WP","True", "noteMountainDescription",                     cachedList, database)
+    constructCollection("noteOther",        "c6b4219","TheIsland_WP","True", "noteOtherDescription",  cachedList, database)
     
+    constructCollection("dropCentralCaveCLEVER","c8af508","TheIsland_WP","True", "dropCentralCaveCLEVERDescription",  cachedList, database)
+    constructCollection("dropNWCaveSKYLORD","c8af508","TheIsland_WP","True", "dropNWCaveSKYLORDDescription",  cachedList, database)
+    constructCollection("dropLowerSCaveHUNTER","c8af508","TheIsland_WP","True", "dropLowerSCaveHUNTERDescription",  cachedList, database)
+    constructCollection("dropUpperSCavePACK","c8af508","TheIsland_WP","True", "dropUpperSCavePACKDescription",  cachedList, database)
+    constructCollection("dropNECaveDEVOURER","c8af508","TheIsland_WP","True", "dropNECaveDEVOURERDescription",  cachedList, database)
+    constructCollection("dropLavaCaveMASSIVE","c8af508","TheIsland_WP","True", "dropLavaCaveMASSIVEDescription",  cachedList, database)
+    constructCollection("dropSwampCaveIMMUNE","c8af508","TheIsland_WP","True", "dropSwampCaveIMMUNEDescription",  cachedList, database)
+    constructCollection("dropSnowCaveSTRONG","c8af508","TheIsland_WP","True", "dropSnowCaveSTRONGDescription",  cachedList, database)
+    constructCollection("dropLostFaithBRUTE","c8af508","TheIsland_WP","True", "dropLostFaithBRUTEDescription",  cachedList, database)
+    constructCollection("dropLostHopeCUNNING","c8af508","TheIsland_WP","True", "dropLostHopeCUNNINGDescription",  cachedList, database)
+    
+temp:="
+(
+    Name	            Artifact	            Lat	    Lon
+Central Cave	        Clever (Broodmother)	41.5	46.9
+North West Cave	        Skylord (Dragon)	    19.3	19.0
+Lower South Cave	    Hunter (Broodmother)	80.3	53.5
+North East Cave	        Devourer (Megapithecus)	14.7	85.4
+Upper South Cave	    Pack (Megapithecus)	    68.2	56.2
+Lava Cave	            Massive (Broodmother)	70.6	86.1
+Swamp Cave	            Immune (Dragon)	        62.7	37.3
+Snow Cave	            Strong (Dragon)	        29.1	31.8
+Caverns of Lost Faith	Brute (Megapithecus)	53.7	10.4
+Caverns of Lost Hope	Cunning (Dragon)	    45.9	88.9
+dropCentralCaveCLEVER
+dropNWCaveSKYLORD
+dropLowerSCaveHUNTER
+dropUpperSCavePACK
+dropNECaveDEVOURER
+dropLavaCaveMASSIVE
+dropSwampCaveIMMUNE
+dropSnowCaveSTRONG
+dropLostFaithBRUTE
+dropLostHopeCUNNING
 
+
+)"
     
 
     OptionsGUI.Destroy()
@@ -390,36 +427,47 @@ lineContainsChipy(InputString){
 
 buildGUI(iniPath,iniSectionName, database,   baseURL, &loopBreaker, cfg){
     ; build GUI
-    GUI_FONT_SIZE:=20
+    GUI_FONT_SIZE:=17
     OptionsGUI := gui(" -MinimizeBox -DPIScale","Chipys ASA Map Marker Manager (" app_version " " cfg.c["localizationlanguage"].value ")")
-    OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q3", "Terminal")				
-    OptionsGUI.BackColor := "666666"								
+    ; OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q3", "Terminal")				
+    OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q5 w700", "Noto Sans")							
+    OptionsGUI.BackColor := "444444"								
 
     OptionsGUI.Add("text",  ,localize("guiTitleNotes", cfg.c["localizationlanguage"].value))
     for key, value in database {
         if InStr(key, "note"){
-            database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "xm background" SubStr(value.color,2) ,"   ")
-            OptionsGUI.Add("text", " yp" , value.description)
+            database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "+right xm yp" round(GUI_FONT_SIZE*2) " background" SubStr(value.color,2) ,"   ")
+            OptionsGUI.Add("text", " yp" , "[" value.addedMarkerCount "] " value.description)
         }
     }
-    OptionsGUI.Add("text", "xm"  ,localize("guiTitlePOIs", cfg.c["localizationlanguage"].value))
+    OptionsGUI.Add("text", "xm "  ,localize("guiTitlePOIs", cfg.c["localizationlanguage"].value))
     for key, value in database {
         if !InStr(key, "note"){
-            database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "xm background" SubStr(value.color,2) ,"   ")
-            OptionsGUI.Add("text", " yp" , value.description)
+            database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "+right xm yp" round(GUI_FONT_SIZE*2) " background" SubStr(value.color,2) ,"   ")
+            OptionsGUI.Add("text", " yp" , "(" value.addedMarkerCount ") " value.description)
         }
     }
 
-    OptionsGUI.Add("text",  ,"")
     
-    OptionsGUI.Add("button", "xm" , localize("buttonDownload", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker))
-    OptionsGUI.Add("button", "xm" , localize("buttonApply", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> addMarkersToINI(iniPath,iniSectionName, database))
-    OptionsGUI.Add("button", "yp" , localize("buttonINI", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> Run(iniPath))
-    OptionsGUI.Add("button", "xm" , localize("buttonCleanup", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> removeMarkersFromINI(iniPath,iniSectionName))
-    OptionsGUI.Add("button", "yp" , localize("buttonCCC", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> toggleCaptureClipboardChanges(&loopBreaker))
-    
+    ; OptionsGUI.Add("Label", "CustomStyle CSS file:xm " , localize("buttonDownload", cfg.c["localizationlanguage"].value)).OnEvent("click",(*)=> constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker))
+    temp := OptionsGUI.Add("button", "xm h40" , localize("buttonDownload", cfg.c["localizationlanguage"].value))
+    temp.OnEvent("click",(*)=> constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker))
+    temp.Opt("Background666666 default")
+    temp := OptionsGUI.Add("button", "xm 0x800 h40" , localize("buttonApply", cfg.c["localizationlanguage"].value))
+    temp.OnEvent("click",(*)=> addMarkersToINI(iniPath,iniSectionName, database))
+    temp.Opt("Background666666 default")
+    temp := OptionsGUI.Add("button", "yp 0x800 h40" , localize("buttonINI", cfg.c["localizationlanguage"].value))
+    temp.OnEvent("click",(*)=> Run(iniPath))
+    temp.Opt("Background666666 default")
+    temp := OptionsGUI.Add("button", "xm 0x800 h40" , localize("buttonCleanup", cfg.c["localizationlanguage"].value))
+    temp.OnEvent("click",(*)=> removeMarkersFromINI(iniPath,iniSectionName))
+    temp.Opt("Background666666 default")
+    temp := OptionsGUI.Add("button", "yp 0x800 h40" , localize("buttonCCC", cfg.c["localizationlanguage"].value))
+    temp.OnEvent("click",(*)=> toggleCaptureClipboardChanges(&loopBreaker))
+    temp.Opt("Background666666 default")
+
     ; OptionsGUI.Add("button", "yp" , "Capture CCC").OnEvent("click",(*)=> toggleCaptureClipboardChanges(&loopBreaker))    
-    OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE*0.6) " q3", "Terminal")		
+    OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE*0.6), )		
     OptionsGUI.AddLink( "xm" ,localize("supportMe", cfg.c["localizationlanguage"].value))
     OptionsGUI.show()
 }

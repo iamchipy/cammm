@@ -16,7 +16,7 @@
 #SingleInstance Force
 
 ;===================================================
-app_version := "2.8.6", unused := "custom var"
+app_version := "2.8.16", unused := "custom var"
 ;@Ahk2Exe-Let U_version = %A_PriorLine~U)^(.+"){1}(.+)".*$~$2%
 
 ;@Ahk2Exe-SetCopyright    Freeware written by Chipy
@@ -51,7 +51,7 @@ loopBreaker := true
 database := Map()
 iniPath := getINIPath()
 cfg := ConfigManagerTool()
-updateObj := UpdateHandler("https://chipy.dev/download/cammm.exe",app_version,, "Chipy's ARK MapMarkerManager")
+updateObj := UpdateHandler("https://chipy.dev/download/cammm.exe",app_version,SCRIPT_NAME, "Chipy's ARK MapMarkerManager")
 
 ; ### MapMarker
 ; (id, name, color, xyz, map:="TheIsland_WP", overlay:="False")
@@ -264,6 +264,30 @@ constructDatabase(database, baseURL, OptionsGUI, &loopBreaker){
         FileAppend(A_Now "|" A_LastError,"cmmm.log")
     }
 
+    ; ; Build the list of areas dynamically (by checking for unique entries)
+    ; extractUniqueCatagories(cachedList){
+    ;     uniqueEntries := []
+    ;     ; split string into lines
+    ;     for line in StrSplit(cachedList,"`n") {
+    ;         ; split lines into words
+    ;         word := StrSplit(line,",")
+    ;         ; if the resulting list is too short to be valid end the loop
+    ;         if(word.Length < 6){
+    ;             return 
+    ;         }
+    ;         ; If this catagory not ready in the list add it
+    ;         if (!InStr(uniqueEntries, word[7])){
+    ;             uniqueEntries.Push(word[7])
+    ;         }
+    ;     }
+
+    ;     return uniqueEntries
+    ; }
+    ; ; new method is to just loop and create one for each type/zone/catagory
+    ; for entry in extractUniqueCatagories(cachedList){
+    ;     constructCollection(entry,"ced9315","TheIsland_WP","True", entry "Description",         cachedList, database)
+    ; }
+
     constructCollection(name, color, map, overlay, descLocName, cachedList, database, ListSliceArray:=0){
         descStr := localize(descLocName, cfg.c["localizationlanguage"].value)
         try{
@@ -275,12 +299,19 @@ constructDatabase(database, baseURL, OptionsGUI, &loopBreaker){
         }
     }
 
+    ListSliceArray := [6,19,46,48,51,52,53,55,56,57,60,62,89,90,95,99,110,112,113,131,140,148,149,160,169,191,200]
+    constructCollection("NoBeds",           "cfffb00","TheIsland_WP","True", "nonBedCaveDescription",  cachedList, database, ListSliceArray)
+
     constructCollection("Artifact",         "ced9315","TheIsland_WP","True", "artifactCollectionDescription",         cachedList, database)
     constructCollection("BlackPearlA",      "ced1597","TheIsland_WP","True", "blackPearlADescription",     cachedList, database)
     constructCollection("DeepSea",          "c15eded","TheIsland_WP","True", "underWaterDropsDescription",  cachedList, database)
-    ListSliceArray := [6,19,46,48,51,52,53,55,56,57,60,62,89,90,95,99,110,112,113,131,140,148,149,160,169,191,200]
-    constructCollection("NoBeds",           "cfffb00","TheIsland_WP","True", "nonBedCaveDescription",  cachedList, database, ListSliceArray)
-    constructCollection("MetalRunA",           "cfffb00","TheIsland_WP","True", "MetalRunADescription",  cachedList, database, ListSliceArray)
+    constructCollection("MetalRunA",        "cfffb00","TheIsland_WP","True", "MetalRunADescription",  cachedList, database)
+    constructCollection("metalFarsPeak",    "caeac76","TheIsland_WP","True", "metalFarsPeak",  cachedList, database)
+    constructCollection("metalVolcano",    "caeac76","TheIsland_WP","True", "metalVolcano",  cachedList, database)
+    constructCollection("metalRedWood",    "caeac76","TheIsland_WP","True", "metalRedWood",  cachedList, database)
+    constructCollection("metalSouthEastA",    "caeac76","TheIsland_WP","True", "metalSouthEastA",  cachedList, database)
+    constructCollection("metalSouthEastB",    "caeac76","TheIsland_WP","True", "metalSouthEastB",  cachedList, database)
+    constructCollection("metalBlueOby",    "caeac76","TheIsland_WP","True", "metalBlueOby",  cachedList, database)
 
     constructCollection("noteBoss",         "cd6d6d6","TheIsland_WP","True", "noteBossDescription",      cachedList, database)
     constructCollection("noteCave",         "c1b1b1b","TheIsland_WP","True", "noteCaveDescription",  cachedList, database)
@@ -299,8 +330,13 @@ constructDatabase(database, baseURL, OptionsGUI, &loopBreaker){
     constructCollection("dropLostFaithBRUTE","c8af508","TheIsland_WP","True", "dropLostFaithBRUTEDescription",  cachedList, database)
     constructCollection("dropLostHopeCUNNING","c8af508","TheIsland_WP","True", "dropLostHopeCUNNINGDescription",  cachedList, database)
     
+    
 temp:="
 (
+CREDIT:
+@adjaro - dropSwampCaveIMMUNE, dropSnowCaveSTRONG (TONS)
+@cheaterramos - Brute4/ Pack1
+
     Name	            Artifact	            Lat	    Lon
 Central Cave	        Clever (Broodmother)	41.5	46.9
 North West Cave	        Skylord (Dragon)	    19.3	19.0
@@ -322,8 +358,6 @@ dropSwampCaveIMMUNE
 dropSnowCaveSTRONG
 dropLostFaithBRUTE
 dropLostHopeCUNNING
-
-
 )"
     
 
@@ -335,8 +369,9 @@ dropLostHopeCUNNING
 addMarkersToINI(iniPath,iniSectionName, database){
     countRemoved :=0
     countAdded :=0
+
     ; WARN the user
-    MsgBox "Please make sure you have the game closed or on the main menu. (Or else the markers will not 'save')`r`n`r`nPress 'OK' to continue"
+    MsgBox localize("promptINIWarning", cfg.c["localizationlanguage"].value)
 
     ; Get current INI state
     currentINI := IniRead(iniPath, iniSectionName)
@@ -429,21 +464,22 @@ buildGUI(iniPath,iniSectionName, database,   baseURL, &loopBreaker, cfg){
     ; build GUI
     GUI_FONT_SIZE:=17
     OptionsGUI := gui(" -MinimizeBox -DPIScale","Chipys ASA Map Marker Manager (" app_version " " cfg.c["localizationlanguage"].value ")")
-    ; OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q3", "Terminal")				
-    OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q5 w700", "Noto Sans")							
+    OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q3", "Terminal")				
+    ; OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q5 w700", "Noto Sans")							
+    OptionsGUI.setfont("c00cccc s" round(GUI_FONT_SIZE) " q5 w700", "roboto")							
     OptionsGUI.BackColor := "444444"								
 
     OptionsGUI.Add("text",  ,localize("guiTitleNotes", cfg.c["localizationlanguage"].value))
     for key, value in database {
         if InStr(key, "note"){
-            database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "+right xm yp" round(GUI_FONT_SIZE*2) " background" SubStr(value.color,2) ,"   ")
+            database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "+right xm yp" round(GUI_FONT_SIZE*1.5) " background" SubStr(value.color,2) ,"   ")
             OptionsGUI.Add("text", " yp" , "[" value.addedMarkerCount "] " value.description)
         }
     }
     OptionsGUI.Add("text", "xm "  ,localize("guiTitlePOIs", cfg.c["localizationlanguage"].value))
     for key, value in database {
         if !InStr(key, "note"){
-            database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "+right xm yp" round(GUI_FONT_SIZE*2) " background" SubStr(value.color,2) ,"   ")
+            database[key].guiCheckbox := OptionsGUI.Add("Checkbox", "+right xm yp" round(GUI_FONT_SIZE*1.5) " background" SubStr(value.color,2) ,"   ")
             OptionsGUI.Add("text", " yp" , "(" value.addedMarkerCount ") " value.description)
         }
     }
@@ -453,16 +489,16 @@ buildGUI(iniPath,iniSectionName, database,   baseURL, &loopBreaker, cfg){
     temp := OptionsGUI.Add("button", "xm h40" , localize("buttonDownload", cfg.c["localizationlanguage"].value))
     temp.OnEvent("click",(*)=> constructDatabase(database,   baseURL, OptionsGUI, &loopBreaker))
     temp.Opt("Background666666 default")
-    temp := OptionsGUI.Add("button", "xm 0x800 h40" , localize("buttonApply", cfg.c["localizationlanguage"].value))
+    temp := OptionsGUI.Add("button", "xm h40" , localize("buttonApply", cfg.c["localizationlanguage"].value))
     temp.OnEvent("click",(*)=> addMarkersToINI(iniPath,iniSectionName, database))
     temp.Opt("Background666666 default")
-    temp := OptionsGUI.Add("button", "yp 0x800 h40" , localize("buttonINI", cfg.c["localizationlanguage"].value))
+    temp := OptionsGUI.Add("button", "yp h40" , localize("buttonINI", cfg.c["localizationlanguage"].value))
     temp.OnEvent("click",(*)=> Run(iniPath))
     temp.Opt("Background666666 default")
-    temp := OptionsGUI.Add("button", "xm 0x800 h40" , localize("buttonCleanup", cfg.c["localizationlanguage"].value))
+    temp := OptionsGUI.Add("button", "xm h40" , localize("buttonCleanup", cfg.c["localizationlanguage"].value))
     temp.OnEvent("click",(*)=> removeMarkersFromINI(iniPath,iniSectionName))
     temp.Opt("Background666666 default")
-    temp := OptionsGUI.Add("button", "yp 0x800 h40" , localize("buttonCCC", cfg.c["localizationlanguage"].value))
+    temp := OptionsGUI.Add("button", "yp h40" , localize("buttonCCC", cfg.c["localizationlanguage"].value))
     temp.OnEvent("click",(*)=> toggleCaptureClipboardChanges(&loopBreaker))
     temp.Opt("Background666666 default")
 
@@ -473,8 +509,8 @@ buildGUI(iniPath,iniSectionName, database,   baseURL, &loopBreaker, cfg){
 }
 
 localize(string_name, target_language:="english"){
-    try
-        refreshLocalization()
+    ; try
+    ;     refreshLocalization()
     try
         return StrReplace(IniRead("localization.ini", target_language, string_name),"``n","`n")
     catch
@@ -488,8 +524,16 @@ refreshLocalization(forceRedownload:=0){
         Download("https://chipy.dev/download/cammm_localization.ini", LOCALIZATION_FILENAME)
         log("INFO: Downloading Localization " LOCALIZATION_FILENAME)
     }
+    if (!FileExist("NotoSans-Regular.ttf")){
+        Download("https://chipy.dev/res/NotoSans-Regular.ttf", "NotoSans-Regular.ttf")
+        
+        ; run(A_WinDir "\fonts\NotoSans-Regular.ttf")
+        ; ; Run('reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" /v "NotoSans Regular (TrueType)" /t REG_SZ /d NotoSans-Regular.ttf /f')
+        ; RegWrite("NotoSans-Regular.ttf", "REG_SZ", "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts","NotoSans Regular (TrueType)")
+        ; MsgBox "you are missing NotoSans-Regular.ttf"
+        
+    }
 }
-
 
 getINIPath(){
     ; get ASA's install path from Reg>Steam>lib>InstallPath
@@ -522,6 +566,7 @@ toggleCaptureClipboardChanges(&loopBreaker){
     cliboardPrevious:=""
     clipboardStack:=""
     if (loopBreaker){
+        A_Clipboard := ""  ; must clear clipboard or else we get all previous clipboard data toooo
         loopBreaker := false
         captureClipboardChanges(ticker, cliboardPrevious, clipboardStack, &loopBreaker)
         MsgBox "Captuing started! Now just open console and hit the 'ccc' command to save your mark.`n`nThen when you are done click the Capture Button again to copy it all to clipboard."
@@ -551,3 +596,12 @@ captureClipboardChanges(ticker, cliboardPrevious, clipboardStack ,&loopBreaker, 
         ToolTip("",,,9)
     }
 }
+
+
+;open 5.62.117.5    ---"UNET ERROR"
+; http://arkdedicated.com/news.ini
+; http://arkdedicated.com/dynamicconfig.ini
+; http://arkdedicated.com/pcnotification.html
+
+; Wishlist
+; Minimap selection
